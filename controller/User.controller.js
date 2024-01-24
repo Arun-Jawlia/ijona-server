@@ -18,19 +18,14 @@ const Signup = async (req, res, next) => {
         process.env.SECRET_KEY
       );
       const { password, ...otherDetails } = newUser._doc;
-      res
-        .cookie("access_token", access_token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json(otherDetails);
+      res.status(200).json({ otherDetails, access_token });
     } else {
       // res.send({ message: "Username is already registered" });
       next(createError(404, "Email is already registerd"));
     }
   } catch (err) {
-    // next(createError(404, "User Not Found!"));
-    next(err);
+    next(createError(404, "User Not Found!"));
+    // next(err);
   }
 };
 const Login = async (req, res) => {
@@ -50,16 +45,12 @@ const Login = async (req, res) => {
         const access_token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
         const { password, ...otherDetails } = user._doc;
 
-        res
-          .cookie("access_token", access_token, {
-            httpOnly: true,
-          })
-          .status(200)
-          .json(otherDetails);
-      }
+     res.status(200).json({ otherDetails, access_token });
     }
+  }
   } catch (err) {
-    next(err);
+    next(createError(404, "User Not Found!"));
+    // next(err);
   }
 };
 

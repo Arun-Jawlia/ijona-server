@@ -2,17 +2,18 @@ const express = require("express");
 const { Connection } = require("./config/db");
 const UserRouter = require("./routes/User.route");
 const PostRouter = require("./routes/Post.route");
+const cors =  require("cors");
+
 const app = express();
 require("dotenv").config();
 
 app.use(express.json());
+app.use(cors())
 
-
-const PORT = process.env.PORT || 8001;
 
 app.get('/',(req,res)=>
 {
-    res.send("Welcome")
+  res.send("Welcome")
 })
 
 
@@ -20,6 +21,7 @@ app.use('/user', UserRouter)
 app.use('/post', PostRouter)
 
 // Error handlers
+const PORT = process.env.PORT || 8001;
 app.use((err, req,res, next)=>
 {
     const status = err.status || 500
