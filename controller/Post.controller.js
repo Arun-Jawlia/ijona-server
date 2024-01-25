@@ -3,8 +3,8 @@ const PostModel = require("../models/Post.model");
 //  Get all  post
 const getAllPost = async (req, res, next) => {
 
-  const page = parseInt(req.query.page) || 1
-  const limit = parseInt(req.query.limit) || 5;
+  const page = req.query.page || 1
+  const limit = req.query.limit || 5;
  try {
   const posts = await PostModel.find().skip((page-1)*limit).limit(limit)
   res.status(200).json(posts);
