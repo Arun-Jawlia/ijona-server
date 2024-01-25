@@ -13,12 +13,9 @@ const Signup = async (req, res, next) => {
       const hashed_password = await bcrypt.hash(req.body.password, salt);
       const newUser = new UserModel({ ...req.body, password: hashed_password });
       await newUser.save();
-      const access_token = jwt.sign(
-        { id: newUser._id },
-        process.env.SECRET_KEY
-      );
+    
       const { password, ...otherDetails } = newUser._doc;
-      res.status(200).json({ otherDetails, access_token });
+      res.status(200).json({ otherDetails });
     } else {
       // res.send({ message: "Username is already registered" });
       next(createError(404, "Email is already registerd"));
@@ -28,7 +25,7 @@ const Signup = async (req, res, next) => {
     // next(err);
   }
 };
-const Login = async (req, res) => {
+const Login = async (req, res,next) => {
   try {
     const user = await UserModel.findOne({ email: req.body.email });
 
@@ -50,7 +47,6 @@ const Login = async (req, res) => {
   }
   } catch (err) {
     next(createError(404, "User Not Found!"));
-    // next(err);
   }
 };
 
