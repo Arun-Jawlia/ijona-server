@@ -2,25 +2,21 @@ const PostModel = require("../models/Post.model");
 
 //  Get all  post
 const getAllPost = async (req, res, next) => {
-
-  const page = req.query.page || 1
+  const page = req.query.page || 1;
   const limit = req.query.limit || 5;
- try {
-  const posts = await PostModel.find().skip((page-1)*limit).limit(limit)
-<<<<<<< HEAD
-  res.status(200).json({posts:posts});
-=======
-  res.status(200).json({"posts":posts});
->>>>>>> 0e524acec8ba59d55de34f033c5f3e1a999eb61c
- } catch (error) {
-  res.status(500).json({"message":error.message})
- }
-  
-
+  try {
+    const posts = await PostModel.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
+    res.status(200).json({ posts: posts });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
+// Get post by id
 const getpostById = async (req, res, next) => {
-  const post = await PostModel.findById(req.params.id)
+  const post = await PostModel.findById(req.params.id);
   res.status(200).json(post);
 };
 
@@ -41,7 +37,6 @@ const deletePost = async (req, res, next) => {
   const post = await PostModel.findByIdAndDelete(id);
   res.status(200).json({ message: "Post deleted successfully" });
 };
-
 
 // Edit Post
 const editPost = async (req, res, next) => {
