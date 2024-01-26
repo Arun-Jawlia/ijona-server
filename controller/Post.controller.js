@@ -7,7 +7,11 @@ const getAllPost = async (req, res, next) => {
   const limit = req.query.limit || 5;
  try {
   const posts = await PostModel.find().skip((page-1)*limit).limit(limit)
+<<<<<<< HEAD
   res.status(200).json({posts:posts});
+=======
+  res.status(200).json({"posts":posts});
+>>>>>>> 0e524acec8ba59d55de34f033c5f3e1a999eb61c
  } catch (error) {
   res.status(500).json({"message":error.message})
  }
